@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package vpn;
+
+service VpnService {
+    rpc Connect(ConnectRequest) returns (ConnectResponse);
+    rpc Disconnect(DisconnectRequest) returns (DisconnectResponse);
+    rpc GetSession(GetSessionRequest) returns (GetSessionResponse);
+    rpc SubscribeToSession(SubsribeToSessionRequest) returns (stream SubscribeToSessionResponse);
+}
+
+enum VpnSessionStatus {
+    NONE = 0;
+    /**
+    * Request cycle
+    **/
+    CONNECT_REQUEST_SENT = 1;
+    CONNECT_REQUEST_ACKNOWLEDGED = 2;
+    CONNECT_REQUEST_APPROVED = 3;
+    CONNECT_REQUEST_DENIED = 4;
+    CONNECT_REQUEST_ERROR = 5;
+
+    /**
+    * Session cycle
+    **/
+    IDLE = 6;
+    CONNECTED = 7;
+    DISCONNECTED = 8;
+    ERROR = 9;
+
+    /**
+    * Disconnect cycle
+    **/
+    DISCONNECT_REQUEST_SENT = 10;
+    DISCONNECT_REQUEST_ACKNOWLEDGED = 11;
+    DISCONNECT_REQUEST_APPROVED = 12;
+    DISCONNECT_REQUEST_DENIED = 13;
+    DISCONNECT_REQUEST_ERROR = 14;
+}
+
+message ConnectRequest {
+    string user_id = 1;
+}
+
+message ConnectResponse {
+    string credentials = 1;
+    VpnSessionStatus status = 2;
+}
+
+message DisconnectRequest {
+    string user_id = 1;
+}
+
+message DisconnectResponse {
+    VpnSessionStatus status = 2;
+}
+
+message GetSessionRequest {
+    string user_id = 1;
+}
+
+message GetSessionResponse {
+    VpnSessionStatus status = 2;
+}
+
+message SubsribeToSessionRequest {
+    string user_id = 1;
+}
+
+message SubscribeToSessionResponse {
+    VpnSessionStatus status = 2;
+}
