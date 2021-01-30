@@ -5,9 +5,7 @@ ARG SERVICE
 RUN apk update && apk add \
     protobuf \
     make \
-    git \
-    protobuf-dev \
-    clang
+    git
 
 WORKDIR /go/src/github.com/freemiumvpn/${SERVICE}/
 
