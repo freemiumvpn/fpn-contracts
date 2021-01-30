@@ -11,9 +11,7 @@ RUN apk update && apk add \
 
 WORKDIR /go/src/github.com/freemiumvpn/${SERVICE}/
 
-ADD go.sum go.mod Makefile /go/src/github.com/freemiumvpn/${SERVICE}/
-RUN make install
-
 ADD . /go/src/github.com/freemiumvpn/${SERVICE}/
 
+RUN make install
 RUN make test

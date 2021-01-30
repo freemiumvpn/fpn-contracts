@@ -14,5 +14,5 @@ jobs:
         with:
           buildx-version: latest
           qemu-version: latest
-      - name: Docker Build & Push
+      - name: Docker Build
         run: make ci-docker-build
