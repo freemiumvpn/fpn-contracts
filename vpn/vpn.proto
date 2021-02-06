@@ -3,6 +3,8 @@ syntax = "proto3";
 package vpn;
 
 service VpnService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
     rpc Connect(ConnectRequest) returns (ConnectResponse);
     rpc Disconnect(DisconnectRequest) returns (DisconnectResponse);
     rpc GetSession(GetSessionRequest) returns (GetSessionResponse);
@@ -11,31 +13,67 @@ service VpnService {
 
 enum VpnSessionStatus {
     NONE = 0;
+
     /**
-    * Request cycle
+    * CREATE Cycle
     **/
-    CONNECT_REQUEST_SENT = 1;
-    CONNECT_REQUEST_ACKNOWLEDGED = 2;
-    CONNECT_REQUEST_APPROVED = 3;
-    CONNECT_REQUEST_DENIED = 4;
-    CONNECT_REQUEST_ERROR = 5;
+    CREATE_REQUEST_SENT = 1;
+    CREATE_REQUEST_ACKNOWLEDGED = 2;
+    CREATE_REQUEST_APPROVED = 3;
+    CREATE_REQUEST_DENIED = 4;
+    CREATE_REQUEST_ERROR = 5;
+
+    /**
+    * CONNECT cycle
+    **/
+    CONNECT_REQUEST_SENT = 6;
+    CONNECT_REQUEST_ACKNOWLEDGED = 7;
+    CONNECT_REQUEST_APPROVED = 8;
+    CONNECT_REQUEST_DENIED = 9;
+    CONNECT_REQUEST_ERROR = 10;
+
+    /**
+    * DISCONNET cycle
+    **/
+    DISCONNECT_REQUEST_SENT = 11;
+    DISCONNECT_REQUEST_ACKNOWLEDGED = 12;
+    DISCONNECT_REQUEST_APPROVED = 13;
+    DISCONNECT_REQUEST_DENIED = 14;
+    DISCONNECT_REQUEST_ERROR = 15;
+
+    /**
+    * DELETE cycle
+    **/
+    DELETE_REQUEST_SENT = 16;
+    DELETE_REQUEST_ACKNOWLEDGED = 17;
+    DELETE_REQUEST_APPROVED = 18;
+    DELETE_REQUEST_DENIED = 19;
+    DELETE_REQUEST_ERROR = 20;
 
     /**
     * Session cycle
     **/
-    IDLE = 6;
-    CONNECTED = 7;
-    DISCONNECTED = 8;
-    ERROR = 9;
+    IDLE = 21;
+    CONNECTED = 22;
+    DISCONNECTED = 23;
+    ERROR = 24;
+}
 
-    /**
-    * Disconnect cycle
-    **/
-    DISCONNECT_REQUEST_SENT = 10;
-    DISCONNECT_REQUEST_ACKNOWLEDGED = 11;
-    DISCONNECT_REQUEST_APPROVED = 12;
-    DISCONNECT_REQUEST_DENIED = 13;
-    DISCONNECT_REQUEST_ERROR = 14;
+message CreateRequest {
+    string user_id = 1;
+}
+
+message CreateResponse {
+    string credentials = 1;
+    VpnSessionStatus status = 2;
+}
+
+message DeleteRequest {
+    string user_id = 1;
+}
+
+message DeleteResponse {
+    VpnSessionStatus status = 1;
 }
 
 message ConnectRequest {
@@ -43,8 +81,7 @@ message ConnectRequest {
 }
 
 message ConnectResponse {
-    string credentials = 1;
-    VpnSessionStatus status = 2;
+    VpnSessionStatus status = 1;
 }
 
 message DisconnectRequest {
@@ -52,7 +89,7 @@ message DisconnectRequest {
 }
 
 message DisconnectResponse {
-    VpnSessionStatus status = 2;
+    VpnSessionStatus status = 1;
 }
 
 message GetSessionRequest {
@@ -60,6 +97,7 @@ message GetSessionRequest {
 }
 
 message GetSessionResponse {
+    string credentials = 1;
     VpnSessionStatus status = 2;
 }
 
@@ -68,5 +106,5 @@ message SubsribeToSessionRequest {
 }
 
 message SubscribeToSessionResponse {
-    VpnSessionStatus status = 2;
+    VpnSessionStatus status = 1;
 }
