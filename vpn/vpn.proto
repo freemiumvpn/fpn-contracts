@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package vpn;
 
-option go_package = "/";
+option go_package = "vpn/";
 
 service VpnService {
     rpc Create(CreateRequest) returns (CreateResponse);
