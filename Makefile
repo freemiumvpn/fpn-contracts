@@ -20,6 +20,11 @@ SERVICE=fpn-contracts
 test:
 	mkdir -p $(BUILD_DIR)/vpn
 
+	# Feedback
+	protoc -I=./feedback --go_out=import_path=dummy:$(BUILD_DIR)/feedback feedback/*.proto
+	protoc -I=./feedback --js_out=$(BUILD_DIR)/feedback feedback/*.proto
+
+	# vpn
 	protoc -I=./vpn --go_out=import_path=dummy:$(BUILD_DIR)/vpn vpn/*.proto
 	protoc -I=./vpn --js_out=$(BUILD_DIR)/vpn vpn/*.proto
 
