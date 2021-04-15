@@ -19,6 +19,7 @@ SERVICE=fpn-contracts
 .PHONY: test
 test:
 	mkdir -p $(BUILD_DIR)/vpn
+	mkdir -p $(BUILD_DIR)/feedback
 
 	# Feedback
 	protoc -I=./feedback --go_out=import_path=dummy:$(BUILD_DIR)/feedback feedback/*.proto
