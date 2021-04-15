@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package feedback;
+
+option go_package = "/";
+
+service FeedbackService {
+    rpc Create(CreateFeedbackRequest) returns (CreateFeedbackResponse);
+    rpc Delete(DeleteFeedbackRequest) returns (DeleteFeedbackResponse);
+    rpc GetById(GetByIdRequest) returns (GetByIdResponse);
+}
+
+message Feedback {
+    string id = 1;
+    string description = 2;
+    string created_by = 3;
+    string created_at = 4;
+}
+
+message CreateFeedbackRequest {
+    string description = 1;
+    string created_by = 2;
+}
+
+message CreateFeedbackResponse {
+    string id = 1;
+}
+
+message DeleteFeedbackRequest {
+    string id = 1;
+}
+
+message DeleteFeedbackResponse {}
+
+message GetByIdRequest {
+    string id = 1;
+}
+
+message GetByIdResponse {
+    Feedback feedback = 1;
+}

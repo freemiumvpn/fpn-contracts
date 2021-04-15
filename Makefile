@@ -17,12 +17,31 @@ TESTFLAGS := -short -cover
 SERVICE=fpn-contracts
 
 .PHONY: test
-test:
+test: test-vpn test-feedback
+
+test-feedback:
+	mkdir -p $(BUILD_DIR)/feedback
+	# GO
+	protoc \
+		-I=./feedback \
+		--go_out=$(BUILD_DIR)/feedback \
+		feedback/*.proto
+
+	# JS
+	protoc \
+		-I=./feedback \
+		--js_out=$(BUILD_DIR)/feedback \
+		feedback/*.proto
+
+test-vpn:
 	mkdir -p $(BUILD_DIR)/vpn
+	# GO
+	protoc -I=./vpn \
+		--go_out=$(BUILD_DIR)/vpn \
+		vpn/*.proto
 
-	protoc -I=./vpn --go_out=import_path=dummy:$(BUILD_DIR)/vpn vpn/*.proto
+	# JS
 	protoc -I=./vpn --js_out=$(BUILD_DIR)/vpn vpn/*.proto
-
 
 # ----- Docker -----
 
