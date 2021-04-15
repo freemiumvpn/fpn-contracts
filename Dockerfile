@@ -1,4 +1,4 @@
-FROM golang:1.15-alpine AS STAGE_BUILD
+FROM golang:1.16-alpine AS STAGE_BUILD
 
 ARG SERVICE
 

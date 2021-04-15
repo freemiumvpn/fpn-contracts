@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package vpn;
 
+option go_package = "/";
+
 service VpnService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Delete(DeleteRequest) returns (DeleteResponse);
